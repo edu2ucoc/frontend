@@ -1,0 +1,61 @@
+<!-- 
+    html5 기본 골격(템플릿) 준비 html, head, body 스크립트 참조 추가 
+    실습 30초
+
+    CDN 방식 형태
+     - babel : 최신문법의 JS로 작성된 코드를 => 호환코드변환(ES6|ES5)
+-->
+<html>
+<head>
+    <!-- 대부분 한국에서만든 사이트 인코딩(문자셋은) UTF-8 -->
+    <meta charset="UTF-8" />
+    <title>react 기본 구조</title>
+</head>
+<body>
+    <!-- 리액트가 동적으로 화면 구성시 대상이 되는 요소 -->
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- 리액트 작성 코드 -->
+    <script type="text/babel">
+        // 리액트코드 작성!!
+        // 1. 리액트 플랫폼을 통해 동적으로 만들어질 화면 준비
+        //    JSX(or TSX) : xml 엄격한 규칙 + javasscript 결합된 형식
+        /*
+            기본 룰
+                - 반드리 루트 엘리먼트(요소)를 가진다!! (정점은 1개, 트리구조)
+                - 필요시 전체를 ()로 감쌀 수 있다
+                - 요소를 열었으면 반드시 닫는다
+                - 기존의 html 요소를 사용 통상 소문자로 표기(관례)
+                - 사용자 정의 요소(컴포넌트)는 첫글자를 대문자 표기(관례)
+        */
+        let html = <div>
+                <p>리액트</p>
+            </div>
+
+        // 2. 위에서 만든 JSX를 동적으로 랜더링 하기 
+        //    위해 타겟을 특정(css selector)함
+        const root = document.querySelector('#root');
+
+        // 3. 최상위 엘리먼트를 재료로 리액트에서 동적 구성을 하기위해
+        //    `리액트DOM`을 구성한다!!
+        /*
+            DOM : Document Object Model
+            - 브라우저가 html을 그릴때, 메모리에 html을 파싱
+              ->메모리에 로드된객체=DOM으로 부름
+              ->DOM을 통해서 요소를 접근(css selector), 화면조작(동적구성)...
+              ->통상적으로  DOM을 조작화면갱신 => 느린 포퍼먼스를 가짐
+            - 기존 방식을 빠르게 갱신할수 있게 처리?
+              -> 리액트는 VDOM(가상 DOM)을 사용, 스왑을 통해 화면 갱신 처리
+            - 변경된 부분만 갱신!! (해당 파트만 랜더링!!)
+        */
+       const react_root = ReactDOM.createRoot( root ); // VDOM 을 생성
+
+       // 4. 랜더링 (JSX를 VDOM에 넣어서 랜더링)
+       react_root.render( html ); // JSX 랜더링
+    </script>
+</body>
+</html>

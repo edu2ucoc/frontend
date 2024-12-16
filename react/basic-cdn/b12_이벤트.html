@@ -1,0 +1,66 @@
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>컴포넌트 이벤트</title>
+</head>
+<body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        /*
+            컴포넌트의 주요 구성
+                - 변수(데이터) : props, state
+                - 이벤트 : 각종 이벤트 처리
+        */
+        class MyEvent extends React.Component {
+            constructor( props ) {
+                super(props)
+                
+            }
+            alertHander3 () {
+                // 유형3번
+                // this.xxx(상태변수, props) 접근 문제!!
+                // 내부에서 this 사용 주의!!
+                // 상태변수 엑세스 없다면 사용가능, 필요하며 추가 조치!!
+                alert('유형3');
+            }
+            render () {
+                // 유형1 : 이벤트 함수(핸드러)를 render 내부에서 정의
+                const alertHander = e => {
+                    // 장점 : 바로 확인 가능
+                    // 단점 : 화면갱신 -> render() 호출
+                    //       -> 내부가 계속 수행 -> 함수가 매번 만들어짐
+                    alert('유형1 ');
+                }
+                return (
+                    <>
+                        <div onClick={ alertHander }>
+                            클릭시 팝업 오픈 - 1
+                        </div>
+                        {/*
+                            유형2 : inline 방식으로 함수를 직접배치
+                        */}
+                        <div onClick={ e => alert('유형2') }>
+                            클릭시 팝업 오픈 - 2
+                        </div>
+                        {/*
+                            유형3 : 컴포넌트의 맴버를 세팅
+                        */}
+                        <div onClick={ this.alertHander3 }>
+                            클릭시 팝업 오픈 - 3
+                        </div>
+                    </>
+                );
+            }
+        }
+        let html = <div>
+                <MyEvent/>
+            </div>
+        const root = document.querySelector('#root');
+        const react_root = ReactDOM.createRoot( root ); // VDOM 을 생성
+        react_root.render( html ); // JSX 랜더링
+    </script>
+</body>
+</html>

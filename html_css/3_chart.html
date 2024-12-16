@@ -1,0 +1,97 @@
+<!-- 
+    - 최초 실습 ; 기본골격, html, head, body, div 1개 세팅 실습 1분
+    - 주제 : 
+        - 네트워크를 통해서 데이터를 동적으로 획득
+        - chartjs 라이브러리 사용
+            - 기본 세팅 => chartjs 문서 참조
+                - npm 방식 : nodejs  스타일로 설치 
+                    => 목적 : 앱(웹:SPA,데스크탑), 백엔드서버
+                - CDN 방식 : 프런트엔드 구성(간단하게)
+                    - 링크만 연결하여 세팅(external)
+            - JS를 html 내부에서 사용!!
+                - 통신, 응답데이터를 전처리, 데이터를 차트에 적용   
+        - 동적 데이터를 차트에 적용
+        - 차트 시각화
+-->
+<html>
+
+<head></head>
+
+<body>
+    <div>
+        <!-- 차트가 그려지는 영역 -->
+        <canvas id="chart_id" />
+    </div>
+    <!-- 차트js 라이브러리 연결 (external 방식) : 설치완료:바로 사용가능함 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- axios 라이브러리 연결 : 통신용도 -->
+    <!--
+        JS의 주요 통신라이브러리
+        - 기본,  html5에서 지원(모든 브라우저 지원) :  fetch()
+        - 써드파트 라이브러리    :  axios(), ...
+    -->
+    <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
+    <script>
+        // 여기서부터 차트 관련 업무 처리
+        // 0. 별도의 트리거(버튼 클릭, 검색등) 없이 진행
+        // 1. 차트를 랜더링할 요소 특정
+        const chartCanvas = document.getElementById('chart_id');
+
+        // 2. 데이터는? -> 서버와 통신해서 가져온다!!
+        // http://127.0.0.1:5500/html_css/data/sales.json 요청해서 결과를 가져온다
+        // I/O 통신(네트워크) -> 비동기 -> ajax -> 순수JS 복잡함 -> 라이브러리사용
+        // npmjs.com -> 검색 -> axios -> https://www.npmjs.com/package/axios
+        
+        // 차후는 백엔드서버에서 restful 서비스 방식으로 제공
+        axios.get("http://127.0.0.1:5500/html_css/data/sales.json")
+            .then(res => {
+                console.log('통신결과', res);
+                // 실습 1분 res 내부에서 존재하는 data만 추출하시오
+                // 객체 구조 분해 or 객체 비구조화 할당
+                const { data } = res;
+                // [ {}, {}, ... ] : 객체를 맴버로 가지는 배열 형태(가장많이등장)
+                console.log('실데이터', data);
+
+                // 차트 생성
+                makeChart(data);
+            })
+            .catch(err => {
+                alert('통신오류');
+            });
+
+        function makeChart(data) {
+            // 3. 데이터를 차트에 적용 -> 데이터(배열|객체) 가공 
+            // data -> 가공 혹은 추출 -> 배열 2개 생성 교체 자리에 각각 대체 : 실습4분
+            //data.map( function (sale) { return sale.label } )
+            // 배열.map()  맴버를 하나씩 꺼내서 뭔가 작업해서 반환한다면 => 새로운배열생성
+            let labels = data.map( sale => sale.label  ); // 레이블정보만 추출
+            //console.log( labels );
+            let datas  = data.map( sale => sale.data  ); // 수치데이터만 추출
+
+            // 4. 차트 갱신 혹은 새로고침(케이스별로 상이) , 생략가능하다
+            new Chart(chartCanvas, {
+                type: 'bar',
+                data: {
+                    // 레이블 자리 -> ['A','B','C', ..] 교체
+                    labels: labels, //['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                    datasets: [{
+                        label: '# of Votes',
+                        // 데이터 자리 -> [700, 500, ...] 교체
+                        data: datas, //[12, 19, 3, 5, 2, 3],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+    </script>
+</body>
+
+</html>

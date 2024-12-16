@@ -1,0 +1,29 @@
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>JSX에 변수값을 적용하여 동적으로 구성</title>
+</head>
+<body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        /*
+            - 값을 JSX에 삽입할때 표현
+                - 형식 : { 값 }
+                - 값 : 변수, 연산 표현식의 결과물
+                - ex) <p a={값}> {값} </p>                 
+        */
+        const myBank  = "카카오뱅크";
+        const myMoney = 100000000;
+        let html = <div>
+                <p bank={myBank}>나의 {myBank} 계좌에 
+                    현재 현금이 {myMoney*0.1}원 들어있다</p>
+            </div>
+        const root = document.querySelector('#root');
+        const react_root = ReactDOM.createRoot( root ); // VDOM 을 생성
+        react_root.render( html ); // JSX 랜더링
+    </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>VDOM 화면갱신 1(버퍼 스왑:내부적이야기)</title>
+</head>
+<body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        // 작성한 예제는 react 방식에 적합하지는 않다!!
+        // 자동 화면 갱신 -> 새로고침 -> 다시그린다 -> 간격(인터벌)
+        // JS의 인터벌처리(setInterval() ), 단발타이머( setTimer() )
+        // JS의 타미어계열 함수들은 간격이 약간 밀리거나 일치하거나 
+        const root = document.querySelector('#root');
+        const react_root = ReactDOM.createRoot( root ); // VDOM 을 생성
+        setInterval( ()=>{
+            // 현재 화면에 시, 분, 초를 표기->1초마다 갱신
+            const d = new Date();     // 현재시간
+            const h = d.getHours();   // 시
+            const m = d.getMinutes(); // 분
+            const s = d.getSeconds(); // 초
+
+            // 리엑트 구성 요소를 여기에 세팅 
+            // -> 리액트 화면갱신전략을 모르기 때문, 전체 세팅하겠다
+            let html = <div>
+                <p>{h}:{m}:{s}</p>
+            </div>
+            // 매번 갱신한때 랜더링 쪽을 [강제로] 호출해야 하는가?
+            react_root.render( html ); // JSX 랜더링
+        }, 1000*1 ); // 1초간격, 1/1000 단위
+
+
+
+
+
+
+    </script>
+</body>
+</html>

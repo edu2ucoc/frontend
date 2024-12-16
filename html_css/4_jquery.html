@@ -1,0 +1,84 @@
+<!--
+    - jQuery를 통해 JS의 표현 간결함 확인
+        - 로그인 시도에 대한 시뮬레이션 진행
+        - html로 로그인 -> 화면 전환이 발생
+        - JS로 로그인 -> ajax를 사용 -> 화면전환 x, 백단에서 처리됨
+    - css selector 나머지 규칙 실습 적용
+        - 5_jqeury_css_selector.html
+    - chart 적용까지 확인
+        - 6_chart_jquery.html
+    
+-->
+<html>
+<head>
+    <!-- 
+        jquery 설치 
+        - 여러 버전을 다양한 매체에서 제공, 구글에서 제공하는 링크 사용
+            - jquery.com>다운로드>cdn 검색
+            - npmjs.com>jquery 검색>링크 확인
+    -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- chartjs 설치 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div>
+        <form method="post" id="formSend"> <!-- action이 없으면 현재페이지가 전송 URL -->
+            <p>로그인</p>
+            <input type="text" id="uid" placeholder="아이디" />
+            <input type="password" id="upw" placeholder="비밀번호" />
+            <!-- 로그인 행위를 시작하게 하는 트리거 -> 클릭 -> 이벤트 발생 -> submit -->
+            <input type="submit" value="로그인" />
+        </form>
+    </div>
+    <script>
+        /**
+         * jQuery 기본 문법
+         *  - html 요소를 정의하는 변수 표현 방법
+         *      - $('css selector|키워드')
+         *      - 키워드 : document, this, ...
+         *  - 기능 (JS의 모든 기능을 간결하게 함수로 제공함) -> 생산성 극대화!!
+         *      - 요소조작(html 동적구성)
+         *      - 통신(네트워크 => ajax 중심 통신)
+         *      - css 스타일 쉽게 적용(동적)
+         *      - 이벤트 처리
+         */
+        // 1. submit 이벤트 재정의하여 이벤트 발생시 인터셉트 처리
+        //    1-1. 이벤트가 발생되는 주체(form 요소) 특정(css selector)
+        //    1-2. 해당 주체에 대해 submit 이벤트 재정의
+        // $('#formSend')    // 1.1 <-> document.getElementById('formSend');
+        // 1-2 : on('이벤트명', 콜백함수) => 이벤트 정의담당
+        $('#formSend').on('submit', (event)=>{
+            // 1.3  JS에서 임의로 컨트롤 하고 싶다 =>  submit 이벤트를 무효화시켜야함
+            //      submit 이벤트를 유지하면 화면이 전환됨=>무효화처리(특수 케이스)
+            // 1.3.1
+            event.preventDefault();
+            // 이벤트가 발동걸린 상황만 활용=> 로그인처리는  ajax로 처리하겟다(컨셉)
+            console.log('로그인 처리명렁 수행');
+            // 1.4  로그인 처리 + ajax(비동기, 백드라우드로로 통신, 화면껌벅 x)
+            // $.ajax(), $.get(), $.post(), ..
+            $.get({        // ajax({   // post방식 요청
+                // 어떤 내용을 전달해야 서버로 요청이 가는가?
+                // 서버주소, 데이터를 전송하는 방식, 전달할데이터(파라미터)
+                // 응답데이터의 형식, 통신성공햇을때?, 실패했을때?
+                //url     : "/login",     // 서버주소 :  여기서는 더미 주소로 표현
+                url     : "http://127.0.0.1:5500/html_css/data/sales.json", // 임시
+                //method  : "",
+                // 객체 <- 직렬화 | 역직렬화-> 문자열
+                data    : $('#formSend').serializeArray(), //"키=값&키=값",
+                dataType: "json", // 응답의 형태(텍스트) : txt, xml, json, ...
+                success : (data)=>{
+                    console.log('성공', data);
+                }, // 통신 성공 -> .then()
+                error   : (err)=>{
+                    console.log('실패', err);
+                }  // 통신 실패 -> .catch()
+            });
+
+            // 1.3.2
+            return false;
+        }); 
+
+    </script>
+</body>
+</html>

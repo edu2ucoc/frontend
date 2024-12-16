@@ -1,0 +1,42 @@
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>클레스형 컴포넌트 구성</title>
+</head>
+<body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        // Food 컴포넌트를  class  형으로 구성
+        // React.Component(부모) 클레스를 상속(extends) !!!
+        // 클레스는 먼저 정의하고, JSX에서 사용
+        class Food extends React.Component {
+            // 필수 구현 함수
+            render () {
+                // props는 클레스형 컴포넌트의 맴버 변수이다(부모로부터 상속)
+                const { name, price } = this.props;
+                // 반드시 JSX 리턴
+                return (
+                    <>
+                        <h3>오늘 점심은 {name}을 먹을것이고, 가격은 {price}원</h3>
+                    </>
+                );
+            }
+        }
+        // 호이스팅 문제 !! -> b5.html 이상없음,         
+        let html =  (
+            <div>                
+                <Food name="돈까스" price="8000" />
+                <Food name="김밥" price="4000" />
+                <Food name="콩나물국밥" price="5000" />
+            </div>
+        );
+
+        const root = document.querySelector('#root');
+        const react_root = ReactDOM.createRoot( root ); // VDOM 을 생성
+        react_root.render( html ); // JSX 랜더링
+    </script>
+</body>
+</html>

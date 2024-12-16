@@ -1,0 +1,48 @@
+<html>
+<head>
+</head>
+<body>
+    <!-- html에서 전송:form -->
+    <div>
+        <p>로그인</p>
+        <!-- action 생략되는 경우 존재:현재페이지가 주소  -->
+        <!-- <form action="서버주소(URL)" method="get"> -->
+        <!-- url : http://127.0.0.1:5500/html_css/login -->
+        <!-- 아래 방식으로 요청 -> 404에러 -->
+        <form action="/login" method="get">
+            <!-- 
+                - 키를 반드시 지정해야 데이터가 전달된다 
+                - name 속성으로 부여 => 키
+                - 통상, id값과 name값은 동일하게 부여
+                - http://127.0.0.1:5500/login?uid=abcd&upw=1234 <= get방식
+            -->
+            <input type="text" id="uid" name="uid" placeholder="아이디"/>
+            <input type="password" id="upw" name="upw" placeholder="비밀번호"/>
+            <!-- submit 유형이 전송하는 트리거 -->
+            <button type="submit" id="loginBtn">로그인</button>
+        </form>
+    </div>
+    
+    <div>
+        <p>로그인(post)</p>
+        <!-- 데이터를 프로토콜의 바디쪽에 숨겨서(보안성 우수해진다) 전송 
+             참고: 요청 -> 랜 -> 패킷(의 바디) -> 네트워크
+             아래 형태에서 요청 => 405 에러 <= 응답코드
+             : http://127.0.0.1:5500/login <= 데이터가 보이지 않는다!
+        -->
+        <form action="/login" method="post">
+            <input type="text" id="uid" name="uid" placeholder="아이디"/>
+            <input type="password" id="upw" name="upw" placeholder="비밀번호"/>
+            <button type="submit" id="loginBtn">로그인</button>
+        </form>
+    </div>
+
+    <div>
+        <!-- 
+            - 기능 : 링크 전송 => a, get방식 요청
+            - 속성 : href="URL?키=값... <= 존재 본질"
+        -->
+        <a href="https://www.naver.com?pno=482828">페이지 이동|get방식 요청|데이터 전송(노출됨)</a>
+    </div>
+</body>
+</html>

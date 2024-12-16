@@ -1,0 +1,180 @@
+<!--
+    - css selector 습득
+        - (*)아이디 값
+            - 문서(html)상에서 고유한 값을 가진다!!
+            - html : <요소명 id="아이디값">
+            - css selector : "#아이디값"
+        - 클레스 값
+            - `.클레스값`
+        - 요소명
+            - 요소명
+        - 조합(위의 표현)
+            - 요소명#아이디값 or 요소명.클레스값
+        - 열거 -> ,로 나열
+            - selector, selector, ....
+        - 서열 (부모, 자식, 형제, 후손)
+            - 직계 => 부모(요소) > 자식(요소)
+            - 후손 => 조상(루트요소) 한칸공백 후손(특정요소)
+            - table, ul/ol ~, .. 특징적으로 보임
+        - 기타 
+            - 의사결정
+                - selector(반복되는직계요소):특정값
+                - tr:first|last|even|odd|eq()|gt()|lt()...
+            - 속성셀렉터
+                - [속성명=속성값]
+                - input에서 많이 보임
+    - jquery 사용
+-->
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        /* css 스타일 정의, internal  */
+        /* 클레스는 여러 디자인을 묶어서 한가지 형태의 스타일을 제공 */
+        .myStyle {
+            color:blue;
+            background-color: blanchedalmond;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h2 id="subject">제목</h2> <!-- h1 ~ h5 : 대분류, 중분류, 소분류, .. 제목을 표기하는 태그-->
+        <h2>내용</h2>
+        <h2 class="myStyle">클레스 적용1</h2>
+        <p class="myStyle">클레스 적용2</p>
+        <p class="demo">요소명</p>
+        <span>내용1</span>
+        <h4>제목4</h4>
+        <!-- 리스트 묘사, ul|ol  성분 li -->
+        <ol>
+            <li>A</li>
+            <li>B</li>
+            <li>C
+                <ul>
+                    <li>1</li>
+                    <li>2</li>
+                    <li>3</li>
+                </ul>
+            </li>
+        </ol>
+        <!-- 정보를 표현 => 목록으로 표현, 검색결과 ..., 게시판 -->
+        <table border="1">
+            <thead> <!-- 컬럼명, 데이터가 어떤 의미를 가지는지 맨위 한줄 묘사-->
+                <tr>
+                    <th>no</th>
+                    <th>제목</th>
+                    <th>요약</th>
+                </tr>
+            </thead>
+            <tbody> <!-- 데이터, tr이 데이터 1개 -->
+                <tr>
+                    <td>1</td>
+                    <td>월요일</td>
+                    <td>한주시작...</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>크리스마스</td>
+                    <td>수요일휴무</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>크리스마스2</td>
+                    <td>수요일휴무</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>크리스마스3</td>
+                    <td>수요일휴무</td>
+                </tr>
+            </tbody>
+        </table>
+        <div>
+            <br/> <!-- 줄바꿈 -->
+            <input type="text" name="uid"/>
+        </div>
+    </div>
+    <script>
+        // 모든 요소 : *, 서열관계 테스트를 위해서 더미로 세팅
+        // 모든 요소의 글자색을 검은색으로 세팅해라!!. 실제로는 잘 사용 x
+        $('*').css('color','black');
+
+        // 여기서  html의 요소를 특정(css selector)하여 css 스타일(기본적인것만) 적용
+        // 1. 아이디 지정 => 특정, 문서내에서 고유한값
+        //    문법 : #아이디값
+        console.log( $('#subject') );
+        // 이 문서상에 존재하는 모든 요소들 중에 id값이 subject 요소를 찾아라(고유하므로)
+        $('#subject').css('color','red'); // 글자색을 레드 지정
+        
+        // 2. 클레스 : 여러요소에 동일한 스타일을 적용
+        //    동일 엘리먼트 혹은 다른 엘레먼트에게도 적용 가능
+        //    스타일 : style="키:값; 키:값;", class="여러스타일이 묶여 잇는 하나의 디자인"
+        //    문법 : .클레스값
+        // 이 문서상에 존재하는 모든 요소들 중에 클레스값이 myStyle인 요소를 모두 찾아라
+        // CSS 적용 순위(겹친다면) : external < internal < inline 
+        $('.myStyle').css('color', 'magenta');
+
+        // 3. 요소명
+        //    요소의 이름으로 특정하기, 복수개가 선택될 여지가 높다
+        //    문법 : 요소명
+        // 문서상에 존재하는 모든 요소들중에 요소명이 p인 요소를 모두 찾아라!!
+        $('p').css('color', 'red');
+
+        // 4. 조합(위의 표현)
+        //    문법 : 아이디, 클레스, 요소명, ... 등 모든 표현법을 합쳐서 묘사
+        //  - h2#subject : 생략, 아이디는 굳이 조합하지 않는다(사용가능함)
+        //  - h2.myStyle : 문서상에 존재하는 모든 h2 중에서 클레스값이 myStyle인 요소 모두 찾아라
+        //  - 속성명 표기법
+        //      - 순수 css에서는 background-color, 
+        //      - js/react에서 기술할때는 통산 카멜표기법으로 처리 backgroundColor
+        $('h2.myStyle').css('backgroundColor', 'yellow');
+
+        // 5. 열거
+        //    공통점 없는 요소들을 한번에 선택할때 사용
+        //    문법 : css selector, css selector, .... <= 나열
+        $('p.demo, span, h4').css('color', 'green');
+        //    <h4>제목4</h4> => 위의 코드 수행후 => <h4 style="color:green;">제목4</h4>
+        //    css의 속성을 inline 방식으로 적용!! -> 가장 우선순위로 스타일이 적용
+
+        // 6. 서열
+        //    부모와 자식간의 관계, 시초(조상)와 후손간의 관계
+        //    xxML => 구조 표현을 트리형식, 서열관계 표현
+        //    id나 클레스값으로 특정이 않되면 => 위로 올라가면서 특정(서열관계 고려)
+        //    만약 규칙이 생각 않나면 => 요소 > 우클릭 > copy > copy selector
+        //   <div><p>1</p></div>
+        //    문법 : 
+        //      - 부모<->자식, 직계 : 부모 > 자식 
+        //      - 루트<->요소(후손) : 루트 후손    
+        // 문서상에 존재하는 모든 요소들 중에 ol를 모두 특정, 
+        // 이 ol의 직계자식들중 li만 특정해서 글자색 레드    
+        $('ol > li').css('color','red');
+        // 후손 특정, 직계 자식도 포함되는가? (OK)
+        $('ol li').css('color','blue');
+
+        // 7. 의사결정셀렉터 -> table 요소
+        //    반복적인 요소가 등장 => 부모:자식(반복)형태로 특정할수 있음
+        //    자식들의 서열관계를 특정 (첫째, 막내, n 번째, 특수번째, 이상/이하 )
+        // 문서상에 존재하는 모든 table 중에 실 데이터를 모두 찾아서 첫번째 데이터만 추출        
+        // 실 데이터 tr 선택됨 -> 의사결정삽입 
+        //                    -> 첫번째 데이터 -> 실제 텍스트를 자식으로 가진요소
+        $('table > tbody > tr:first > td').css('color','red');
+        $('table > tbody > tr:even').css('backgroundColor','lightgray');//짝수번째
+        // first, last
+        // even, odd
+        // eq(인덱스), lt(인덱스), gt(인덱스)
+        // nth-child(순번) 특정번째 요소, 브라우저별로 표현이 다를수 있다(주의)
+        // 1번부터 순서를 체크함(주의)
+        $('table > tbody > tr:nth-child(2) > td').css('color','blue');
+
+        // 8. 속성셀렉터 -> input 요소
+        //    문법 : (css selector:옵션) + [속성명=속성값]
+        //    속성을 이용하여 요소를 특정
+        // 문서 상에 존재하는 모든 요소들중에 속성명이 값이 name이고, 값이 uid인 요소
+        $('[name=uid]').css('backgroundColor','lightgray');
+        // 문서 상에 존재하는 모든 요소들중에 input들 중에 속성명이 name, 값이 uid인 요소
+        $('input[name=uid]').css('backgroundColor','lightgreen');
+    </script>
+</body>
+</html>

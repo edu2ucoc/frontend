@@ -1,0 +1,47 @@
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>함수형 커스텀 컴포넌트 구성</title>
+</head>
+<body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        /*
+            커스텀한 JSX를 구성하는 함수를 컴포넌트 형태로 구성
+            마치 요소(혹은 작은 범위 tag)처럼 사용
+        */
+        let html = (
+            <div>
+                {/* 사용자 정의 컴포넌트 사용 
+                    Food는 존재(html 기준)하지 않는 요소
+                    리액트는 컴포넌트의 집합 -> 빌드 -> html+js+css
+                    */}
+                <Food name="돈까스" price="8000" />
+                <Food name="김밥" price="4000" />
+                <Food name="콩나물국밥" price="5000" />
+            </div>
+        );
+        // Food 컴포넌트를 구성하여 위의 JSX가 문제 없도록 완성
+        // 문법 : 클레스형, (*)함수형
+        function Food ( props ) { // props 속성이 전달되는 매개변수명
+            console.log( props );
+            // 반드시 JSX를 리턴해야함 -> 함수형 컴포넌트 기본 조건만족
+            // 실습 1분 : 아래 {} 내용을 적절하게 채우시오
+            // 데이터가 객체이므로 -> 객체 구조 분해(비구조화 할당)
+            const { name, price } = props; // 많이 사용됨
+            return (
+                <>
+                    <h3>오늘 점심은 {name}을 먹을것이고, 가격은 {price}원</h3>
+                </>
+            );
+        }
+
+        const root = document.querySelector('#root');
+        const react_root = ReactDOM.createRoot( root ); // VDOM 을 생성
+        react_root.render( html ); // JSX 랜더링
+    </script>
+</body>
+</html>

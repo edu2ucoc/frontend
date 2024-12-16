@@ -1,0 +1,26 @@
+[
+    {
+        "label":"A",
+        "data":700
+    },
+    {
+        "label":"B",
+        "data":500
+    },
+    {
+        "label":"C",
+        "data":300
+    },
+    {
+        "label":"D",
+        "data":400
+    },
+    {
+        "label":"E",
+        "data":100
+    },
+    {
+        "label":"F",
+        "data":200
+    }
+]

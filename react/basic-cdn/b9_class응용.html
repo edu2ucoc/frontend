@@ -1,0 +1,69 @@
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>클레스형 컴포넌트 응용-리스트구성</title>
+</head>
+<body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        /*
+            MyList의 보여지는 최종 형태
+            <div>
+                <h3>언어목록</h3>
+                <ul>
+                    <li>js</li>
+                    ....
+                    <li>springboot</li>
+                </ul>
+            </div>
+
+            위의 형태처럼 최종 랜더링되는 MyList 클레스형 컴포넌틀 만드시오    
+        */
+        // 실습 1. 기본 골격 만드기(필수 요소 적용), 1분
+        class MyList extends React.Component {
+            render () {
+                // 1. 컴포넌트의 속성을 분해
+                const { title, items } = this.props;
+                // 2. 속성값 -> 분해 -> JSX 내부에 적절하게 사용
+                //    리스트 처리에 대한 자주 나오는 패턴
+                //    items 값은 -> 배열로 구성 
+                //            -> 변환처리 -> <li>..</li>  구성해야 된다
+                // js,react,java,springboot => ['js','react','java','springboot']
+                // 위의 데이터는 ,를  중심으로 구성 => 문자열.split('구분자')
+                // split() <-> join()
+                //console.log( items.split(',') );
+
+                // map() : 원본 배열에서 하나씩 꺼내서 -> 전처리 -> 새로운배열
+                // 자주 보이는 패턴!!
+                // Each child in a list should have a unique "key" prop.
+                // 리액트에서 동적으로 목록 구성시 반드시 속성으로 key='고유값' 추가
+                const myLi = items.split(',').map( (item, idx )=>{
+                    // item: js, react,..
+                    // idx : 0, 1, 2, 3... <= 배열은 인덱스가 고유값!!
+                    // JSX를 리턴
+                    return <li key={ idx }>{ item }</li>;
+                } ); // 배열에서 하나씩 데이터 추출하여
+
+                return (
+                    <>
+                        <h3>{ title }</h3>
+                        <ul>
+                            { myLi }
+                        </ul>
+                    </>
+                );
+            }
+        }
+
+        let html = <div>
+            <MyList title="언어목록" items="js,react,java,springboot"/>
+        </div>
+        const root = document.querySelector('#root');
+        const react_root = ReactDOM.createRoot( root ); // VDOM 을 생성
+        react_root.render( html ); // JSX 랜더링
+    </script>
+</body>
+</html>

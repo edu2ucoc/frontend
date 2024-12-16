@@ -1,0 +1,28 @@
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>JSX-새로고침을 할때마다 내용을 바꾸겟다</title>
+</head>
+<body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        // 함수가 JSX를 반환 형태
+        // SPA 특성상 새로고침 x => 편의상 구성
+        function createDynamicJSX() {
+            // JSX를 동적으로 구성해서 반환
+            // 1. 임의의 페이지구성을 위해 난수 사용
+            // 0.0 ~ 1.0
+            const v = Math.floor(Math.random() * 3)
+            if( v == 0 )        return <p>리액트</p>;
+            else if( v == 1 )   return <p>리덕스(1세대)</p>;
+            else                return <p>넥스트JS</p>;
+        }
+        // 수정 않함!!
+        const react_root = ReactDOM.createRoot( document.querySelector('#root') );
+        react_root.render( createDynamicJSX() );
+    </script>
+</body>
+</html>

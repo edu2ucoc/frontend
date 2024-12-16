@@ -1,0 +1,63 @@
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>컴포넌트의 상태변수</title>
+</head>
+<body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        /*
+            - 컴포넌트의 주요요소
+                - props : 속성, 요소를 사용할때 전달됨
+                - state : 상태, 컴포넌트 내부에서 사용,
+                    - 상태변수 값이 변경되면 -> 자동으로 화면갱신됨
+                        -> 값 변경 -> 클레스형 기반 render() 호출
+                    - 리액트의 컴포넌트의 기본 화면 갱신 전략
+            - 상태변수 워크플로우
+                1. 상태 변수 초기화 - 생성자 초기화
+                2. 상태 변수 사용 - render() 내부
+                3. 상태 변수 업데이트 - 특정 이벤트 발생
+                4. 화면갱신 - 자동으로 render() 호출됨, 내부적!!
+        */
+        // 기본 클레스형 컴포넌트 구성, MyState 기본 형태 구성, 실습 : 1분
+        class MyState extends React.Component {
+            // 생성자
+            constructor( props ) {                
+                super(props);   // 부모생성자 호출
+                // 1. 상태변수 초기화
+                this.state = {
+                    name:'js',
+                    age:33
+                };
+                // 3. 상태 변수 업데이트
+                //    이벤트 : 1초 단위로 콜백함수 호출
+                setInterval( ()=>{
+                    // 상태 변수 업데이트
+                    // 기존값+1 => age에 세팅 => 통째로 객체를 대체
+                    this.setState( { age: this.state.age+1 } );
+                }, 1000*1);
+            }
+            // 화면 그리기용(갱신용)
+            render () {
+                // 2. 상태 변수 사용을 위해 name, age 추출 실습 30초
+                const { name, age } = this.state;
+                return (
+                    <>
+                        {/* 2. 상태 변수 사용 */}
+                        <p>{ name } / { age }</p>
+                    </>
+                );
+            }
+        }
+        let html = <div>
+                <MyState/>
+            </div>
+        const root = document.querySelector('#root');
+        const react_root = ReactDOM.createRoot( root ); // VDOM 을 생성
+        react_root.render( html ); // JSX 랜더링
+    </script>
+</body>
+</html>

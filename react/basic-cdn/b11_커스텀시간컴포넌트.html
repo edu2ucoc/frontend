@@ -1,0 +1,58 @@
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>컴포넌트 응용-리액트 스타일로 구현한 시계(h:m:s)</title>
+</head>
+<body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        /*
+            - 컴포넌트명 MyClock
+            - 스타일 : 객체형 컴포넌트
+            - 최종 랜더링 화면
+                <div>
+                    <p>h : m : s</p>
+                </div>
+            - 1초 단위로 상태변수 업데이트하여 자동 render 처리
+            - 실습 4분
+        */
+        class MyClock extends React.Component {
+            // 생성자
+            constructor ( props ) {
+                super(props);
+                // 1. 상태변수 초기화
+                this.state = {
+                    // 어떤 데이터를 상태변수로 저장?->시간
+                    curDate:new Date() // 현재시간
+                };
+                // 3. 1초 단위로 현재 시간 갱신(무한대)
+                setInterval( ()=>{
+                    this.setState( { curDate:new Date() } )
+                }, 1000*1 );
+            }
+            // 랜더링
+            render () {
+                // 2. 상태변수 사용 => 분해후 사용
+                const { curDate } = this.state;
+                const h = curDate.getHours();  // 시
+                const m = curDate.getMinutes();// 분
+                const s = curDate.getSeconds();// 초
+                return (
+                    <>
+                        <p>{h} : {m} : {s}</p>  
+                    </>
+                );
+            }
+        }
+        let html = <div>
+                <MyClock/>
+            </div>
+        const root = document.querySelector('#root');
+        const react_root = ReactDOM.createRoot( root ); // VDOM 을 생성
+        react_root.render( html ); // JSX 랜더링
+    </script>
+</body>
+</html>

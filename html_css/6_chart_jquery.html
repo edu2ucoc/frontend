@@ -1,0 +1,68 @@
+<!--
+    chartjs로 적용된 3_chart.html 문서를  jquery 적용 코드 리팩토링 진행
+        - 버튼 추가
+        - 버튼 클릭시 차트 생성
+        - 차트 생성시 jquery로 대상을 특정 (필요시 특정한다!!)
+-->
+
+<html>
+
+<head>
+    <!-- 써드파트 라이브러리, 프레임웍을 삽입 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div>
+        <button>차트 생성</button>
+        <canvas id="chart_id" />        
+    </div>
+    <script>
+        // 1. 차트 생성 버튼을 클릭하면 차트를 생성
+        $('button').on('click', () => { // 이벤트 처리
+            // 2. 통신 (axios 사용)
+            axios.get("http://127.0.0.1:5500/html_css/data/sales.json")
+                .then(res => {
+                    const { data } = res;
+                    makeChart(data);
+                })
+                .catch(err => {
+                    alert('통신오류');
+                });
+
+        });
+        // $('#chart_id')
+
+
+        // 3. 차트 그리기 - html을 동적 구성
+        function makeChart(data) {
+            // 3-1. 데이터 전처리            
+            let labels = data.map(sale => sale.label);
+            let datas = data.map(sale => sale.data);
+            // 4-2. 차트 적용
+            new Chart($('#chart_id'), {
+                type: 'pie', // 종류 변경, 종류에 따른 데이터 조정하면 바로 반영
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '분석 결과',
+                        data: datas,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+    </script>
+</body>
+
+</html>

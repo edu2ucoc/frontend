@@ -1,0 +1,7 @@
+// 스타일자체를 변수처럼 표현, $ 사용
+// 스타일에 의미있는 내용을 부여하여 디자인 설계
+$title-color: blue;
+
+.title {
+    color:$title-color,
+}

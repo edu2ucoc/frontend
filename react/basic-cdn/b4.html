@@ -1,0 +1,39 @@
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>JSX에 스타일(CSS) 적용, 주석</title>
+</head>
+<body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        // 함수를 통해서 JSX를 동적 생성
+        function makeJSX() {
+            // css 변수로 설정
+            const myStyle1 = { // 객체 리터럴
+                'color':'red',
+                'backgroundColor':'#dadada', // RGB
+                'fontSize':'1.5em'
+            }
+            return (
+                <>  {/* 리액트 주석표기, 껍데기만 존재하는 루트요소 */}
+                    
+                    {/* css의  inline방식 적용 */}
+                    <p style={ myStyle1 }>스타일 적용 1</p>
+                    
+                    {/* JSX내부에 직접 스타일 적용 */}
+                    <p style={{ 'color':'blue', 'fontSize':'2em'}}>스타일 적용 2</p>
+
+                    {/* 기타 추가 표기 가능->차후 확인 */}
+                    {/* 기본적으로는 html 에 전체적으로 적용된 css를 따름 */}
+                </>
+            );
+        }
+        const root = document.querySelector('#root');
+        const react_root = ReactDOM.createRoot( root ); // VDOM 을 생성
+        react_root.render( makeJSX() ); // JSX 랜더링
+    </script>
+</body>
+</html>
