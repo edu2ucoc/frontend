@@ -244,11 +244,36 @@
                 # changes : 코드를 수정, 추가 하면 대상이됨
                 # staged : git add xx => github 에 적용된 대상이 됨
                 git add .
+                
+                # 커밋단계 : github(원격 저장소)와 동기하기전 최종 상태로 변경
+                #           메세지 기입(규칙(나중에체크)에 맞게), 변동내용 정리
+                # 로컬 저장소에 저장
+                git commit -m "Feat: 프로젝트 최초 반영"
+                 
 
-                git commit -m "first commit"
+                # 브런치의 이름을 main으로 변경 -> 필요시 1회만 진행
+                # 브런치 -> 메인 개발 줄기, 모듈별로 브런치를 만들어서 작업 가능
                 git branch -M main
+
+                # 1회성, 로컬 저장소를 원격 저장소와 연결!!
                 git remote add origin https://github.com/edu2ucoc/frontend.git
+
+                # 푸시 : 로컬 저장소의 변경된 내용을 원격 저장소에 반영하라!!
+                # push <-> pull
+                # 명령어 실행후 github 로그인이 뜨면 => xxx browser 클릭 > 인증
+                # 인증후 다시 명령어 실행
                 git push -u origin main
                 ```
+
             4. 형상관리진행
+                - 개인
+                    - 컴퓨터 구동
+                        - 수정된 내용 로컬 저장소 기준으로 최신화
+                            - git pull
+                        - 작업 -> 수정, 신규추가
+                            - git add .
+                        - 커밋
+                            - git commit -m "Feat: xx"
+                        - 푸시 -> 원격 저장소 반영
+                            - git push
                 
